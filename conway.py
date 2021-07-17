@@ -137,7 +137,7 @@ class Conway_Abstract_Print(Conway_Base):
         print('\n')
 
     def string_creation(self,aliveness):
-        printstore = ['X' if x in aliveness else '\t' for x in range(self.col)]
+        printstore = ['X ' if x in aliveness else '  ' for x in range(self.col)]
         printout = ''
 
         return(printout.join(printstore))
