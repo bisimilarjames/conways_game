@@ -183,25 +183,7 @@ class Conway_Base:
 class Conway_Abstract_Print(Conway_Base):
     "A Class with a function that only prints the alive squares"
 
-    def __init__(self,dim,swi):
-        """
-        Initialises the class
-        Takes in length of a square grid
-        Creates an array that will hold the state of each grid element
-        Precalculates the array indicies that are corners and edges
-        """
-        #####Declerations#####
-        ####Variables####
-        #Takes in if the user wants to print the dead or alive states
-        self.swi = swi
-
-        ####Super class####
-        #Passes the grid's dimensions to the superclass
-        super().__init__(dim)
-        #####Computations#####
-
-
-    def print_grid_abstract(self):
+    def print_grid_abstract(self,swi):
         """
         Prints out the grid as several strings of only alive states.
         Alive states are an X alive states.
@@ -214,7 +196,7 @@ class Conway_Abstract_Print(Conway_Base):
         for i in range(self.row):
             #Identifies the currently alive states in this iteration of the grid
             #Prints out the alive states of the current row
-            print(self.string_creation(self.find_alive(i),self.swi))
+            print(self.string_creation(self.find_alive(i),swi))
 
         #New line to seperate the grids in the terminal
         print('\n')
