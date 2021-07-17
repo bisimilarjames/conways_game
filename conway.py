@@ -56,16 +56,16 @@ class Conway_Base:
         #Creates an array with the corner positions of the grid in the array
         #Ordered top left, top right, bottom left, bottom right
         self.corner = (0, self.col-1, (self.row - 1) * self.col, self.row * self. col - 1)
-
+        
         #Edge arrays
         #Top edge
-        self.top_edge = (i for i in range(1, self.col-1))
+        self.top_edge = tuple([i for i in range(1, self.col-1)])
         #Left edge
-        self.left_edge = (i for i in range(self.col, (self.row - 2)* self.col + 1, self.col))
+        self.left_edge = tuple([i for i in range(self.col, (self.row - 2)* self.col + 1, self.col)])
         #Right edge
-        self.right_edge = (i for i in range(2 * self.col - 1, (self.row - 1) * self.col, self.col))
+        self.right_edge = tuple([i for i in range(2 * self.col - 1, (self.row - 1) * self.col, self.col)])
         #Bottom edge
-        self.bottom_edge = (i for i in range((self.row - 1) * self.col + 1, self.row * self. col - 1))
+        self.bottom_edge = tuple([i for i in range((self.row - 1) * self.col + 1, self.row * self. col - 1)])
 
 
     def create_grid(self):

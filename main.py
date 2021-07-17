@@ -8,7 +8,7 @@ begin = cb(10)
 begin.create_grid()
 
 while True:
-    begin.print_grid_abstract(0)
+    begin.print_grid_abstract(True)
     #begin.print_dead_alive()
     begin.grid_update()
 
