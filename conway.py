@@ -123,3 +123,21 @@ class Conway_Base:
             self.grid[index] = 1
         else:
             self.grid[index] = 0
+
+class Conway_Abstract_Print(Conway_Base):
+    """A Class with a function that only prints the alive squares"""
+
+    def print_grid_abstract(self):
+
+        alive = []
+        for i in range(self.row):
+            alive = [index for index, value in enumerate(self.grid[0 + self.col*i:self.col * (1 + i)]) if value == 1]
+            print(self.string_creation(alive))
+
+        print('\n')
+
+    def string_creation(self,aliveness):
+        printstore = ['X ' if x in aliveness else '  ' for x in range(self.col)]
+        printout = ''
+
+        return(printout.join(printstore))
