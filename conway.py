@@ -9,6 +9,10 @@ class Conway_Base:
         Takes in length of a square grid
         Creates an array that will hold the state of each grid element
         Precalculates the array indicies that are corners and edges
+
+        data input: a single int for the edge length of the grid
+        data output: A list that stores the grids states
+                     A series of tuples that stores the indicies of the grid elements that are on the corners and the edges
         """
         #####Declerations#####
         ####Variables####
@@ -26,6 +30,9 @@ class Conway_Base:
     def grid_setup(self):
         """
         Creates the array that stores states of the of the game
+
+        data input: The int variables for the number of rows and columns
+        data output: The grid storage list with all the elements set to dead
         """
         #####Declerations#####
 
@@ -38,28 +45,35 @@ class Conway_Base:
     def edge_and_corner_calc(self):
         """
         Does the pre-calculations of all the corners and edges positions in the grid
+
+        data input: Int values of the number of rows and columns
+        data output: A Corner tuple of length 4, each element is a corner index
+                     4 tuples that store the grid indicies for the edge elements
         """
         #####Declerations#####
 
         #####Computations#####
         #Creates an array with the corner positions of the grid in the array
         #Ordered top left, top right, bottom left, bottom right
-        self.corner = [0, self.col-1, (self.row - 1) * self.col, self.row * self. col - 1]
+        self.corner = (0, self.col-1, (self.row - 1) * self.col, self.row * self. col - 1)
 
         #Edge arrays
         #Top edge
-        self.top_edge = [i for i in range(1, self.col-1)]
+        self.top_edge = (i for i in range(1, self.col-1))
         #Left edge
-        self.left_edge = [i for i in range(self.col, (self.row - 2)* self.col + 1, self.col)]
+        self.left_edge = (i for i in range(self.col, (self.row - 2)* self.col + 1, self.col))
         #Right edge
-        self.right_edge = [i for i in range(2 * self.col - 1, (self.row - 1) * self.col, self.col)]
+        self.right_edge = (i for i in range(2 * self.col - 1, (self.row - 1) * self.col, self.col))
         #Bottom edge
-        self.bottom_edge = [i for i in range((self.row - 1) * self.col + 1, self.row * self. col - 1)]
+        self.bottom_edge = (i for i in range((self.row - 1) * self.col + 1, self.row * self. col - 1))
 
 
     def create_grid(self):
         """
         creates an initial randomised grid layout
+
+        data input: The int variables for the number of rows and columns, and the grid storage list filled with dead elements
+        data output: The grid storage list with randomised alive and dead elements
         """
         #####Declerations#####
 
@@ -72,6 +86,9 @@ class Conway_Base:
     def print_grid(self):
         """
         Prints the conway grid in the terminal
+
+        data input: The int variables for the number of rows and columns, and the randomised grid storage list
+        data output: n/a
         """
         #####Declerations#####
 
@@ -88,6 +105,9 @@ class Conway_Base:
     def grid_update(self):
         """
         Updates the grid for each iteration of the run
+
+        data input: The int variables for the number of rows and columns, and the randomised grid storage array
+        data output: The grid storage list with updated states for all the elements
         """
         #####Declerations#####
         ####Data Structures####
@@ -167,6 +187,9 @@ class Conway_Base:
     def conway_life_death_comp(self, sum, index):
         """
         Does the comparison to see if the state is alive or dead in the next iteration
+
+        data input: The current element index (int), the sum value for the current element (int <= 8) and the grid state list
+        data output: The grid state list with the index updated for the next iteration
         """
         #####Declerations#####
 
@@ -188,6 +211,9 @@ class Conway_Abstract_Print(Conway_Base):
         Prints out the grid as several strings of only alive states.
         Alive states are an X alive states.
         Dead states are left blank
+
+        data input: Life and death switch (Bool), the number of rows (int), the grid storage list
+        data output:n/a
         """
         #####Declerations#####
 
@@ -205,6 +231,9 @@ class Conway_Abstract_Print(Conway_Base):
     def print_dead_alive(self):
         """
         Prints the alive and dead abstract grids next to each other.
+
+        data input: The number of rows (int), the grid storage list
+        data output: n/a
         """
         #####Declerations#####
         ####Data Structure####
@@ -216,7 +245,7 @@ class Conway_Abstract_Print(Conway_Base):
             #Identifies the currently alive states in this iteration of the grid
             alive = self.find_alive(i)
             #Prints out the alive states of the current row
-            print(self.string_creation(alive,1) + '\t' + self.string_creation(alive,0))
+            print(self.string_creation(alive,True) + '\t' + self.string_creation(alive,False))
 
         #New line to seperate the grids in the terminal
         print('\n')
@@ -225,6 +254,9 @@ class Conway_Abstract_Print(Conway_Base):
     def find_alive(self, index):
         """
         Finds the alive states in the current row
+
+        data input: The number of rows & columns (int), the grid storage list, the current row index (int)
+        data output: A list with the (int) indicies of the elements in the current row that are alive
         """
         #####Declerations#####
 
@@ -238,6 +270,10 @@ class Conway_Abstract_Print(Conway_Base):
     def string_creation(self,aliveness,daswi):
         """
         Creates the string version of the current row that has been searched for alive states
+
+        data input: The number of columns (int), the dead or alive switch (Bool), the list that stores the indicies of the alive states in the current row (int)
+        data output: A string with either all the alive element positions set to 'X' or
+        the dead element positions set to 'O'
         """
         #####Declerations#####
         ####Variables####
@@ -245,10 +281,10 @@ class Conway_Abstract_Print(Conway_Base):
 
         #####Computations#####
         #If the user wants to print the alive states
-        if daswi == 1:
+        if daswi == True:
             printstore = ['X ' if x in aliveness else '  ' for x in range(self.col)]
         #If the user wants to print the death states
-        elif daswi == 0:
+        elif daswi == False:
             printstore = [' ' if x in aliveness else 'O ' for x in range(self.col)]
 
         #Returns the row as a string
