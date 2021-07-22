@@ -21,25 +21,24 @@ class Conway_Base:
         self.col = dim
 
         #####Computations#####
-        #Creates grid storage array
-        self.grid_setup()
-        #Pre-calculates the edges and corner positions in the array
-        self.edge_and_corner_calc()
 
 
-    def grid_setup(self):
+    def create_grid(self):
         """
-        Creates the array that stores states of the of the game
+        creates an initial randomised grid layout
 
-        data input: The int variables for the number of rows and columns
-        data output: The grid storage list with all the elements set to dead
+        data input: The int variables for the number of rows and columns, and the grid storage list filled with dead elements
+        data output: The grid storage list with randomised alive and dead elements
         """
         #####Declerations#####
 
         #####Computations#####
-        #The grid is represented as each row of grid elements aligned in one long row
-        #[r_1,r_2,...,r_r]
-        self.grid = [0 for i in range(0,self.row * self.col)]
+        #Loops through each grid element. If the random number generator produces less than 0.5 it floors
+        #Others the element is one
+        self.grid = [0 if random.random() < 0.5 else 1 for x in range(self.row * self.col)]
+
+        #Pre-calculates the edges and corner positions in the array
+        self.edge_and_corner_calc()
 
 
     def edge_and_corner_calc(self):
@@ -66,21 +65,6 @@ class Conway_Base:
         self.right_edge = tuple([i for i in range(2 * self.col - 1, (self.row - 1) * self.col, self.col)])
         #Bottom edge
         self.bottom_edge = tuple([i for i in range((self.row - 1) * self.col + 1, self.row * self. col - 1)])
-
-
-    def create_grid(self):
-        """
-        creates an initial randomised grid layout
-
-        data input: The int variables for the number of rows and columns, and the grid storage list filled with dead elements
-        data output: The grid storage list with randomised alive and dead elements
-        """
-        #####Declerations#####
-
-        #####Computations#####
-        #Loops through each grid element. If the random number generator produces less than 0.5 it floors
-        #Others the element is one
-        self.grid = [0 if random.random() < 0.5 else 1 for x in range(self.row * self.col)]
 
 
     def print_grid(self):

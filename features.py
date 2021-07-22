@@ -82,7 +82,7 @@ class Conway_Input(cb):
             quit()
 
 
-class Conway_Abstract_Print(cb):
+class Conway_Abstract_Print(Conway_Input):
     "A Class with a function that only prints the alive squares"
 
     def print_grid_abstract(self,swi):
@@ -173,6 +173,6 @@ class Conway_Abstract_Print(cb):
 #class Life_and_Death_rules(cb):
     "A Class that allows users to use custom life and death rules for the neighbour states"
 
-    #def __init__():
+#    def __init__():
 
-    #def conway_life_death_comp(self, sum, index)
+#    def conway_life_death_comp(self, sum, index)
