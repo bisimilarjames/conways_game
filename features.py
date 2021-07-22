@@ -18,6 +18,7 @@ class Conway_Input(cb):
         #####Declerations#####
 
         #####Computations#####
+        print(args)
         #Checks the length of the argument tuple for the number of user inputs
         #If there is one user input
         if (len(args) == 1):
@@ -170,9 +171,9 @@ class Conway_Abstract_Print(Conway_Input):
         return(printout.join(printstore))
 
 
-#class Life_and_Death_rules(cb):
+class Life_and_Death_rules(Conway_Input):
     "A Class that allows users to use custom life and death rules for the neighbour states"
 
-#    def __init__():
-
-#    def conway_life_death_comp(self, sum, index)
+    def __init__(born_tuple,survive_tuple,*args):
+            griddim = args[1:]
+            

@@ -1,18 +1,18 @@
 import time
 
 #from features import Conway_Abstract_Print as cap
-from features import Conway_Abstract_Print as ca
-from features import Conway_Input as ci
-
-test = ca(10,5)
+from features import Life_and_Death_rules as ld
 
 
-test.create_grid()
-test.print_grid()
+test = ld((1,2,3),(1,4),10,5)
 
-while True:
+
+#test.create_grid()
+#test.print_grid()
+
+#while True:
     #begin.print_grid_abstract(True)
-    test.print_dead_alive()
-    test.grid_update()
+#    test.print_dead_alive()
+#    test.grid_update()
 
-    time.sleep(2)
+#    time.sleep(2)
