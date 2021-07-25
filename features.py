@@ -157,7 +157,7 @@ class Conway_Abstract_Print(Conway_Input):
 class Life_and_Death_rules(Conway_Input):
     "A Class that allows users to use custom life and death rules for the neighbour states"
 
-    def __init__(self, born_tuple, survive_tuple, row, col):
+    def __init__(self, row, col, born_tuple, survive_tuple):
         """
         Initialises class
         Passes row and columns to parent class
