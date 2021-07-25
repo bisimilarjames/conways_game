@@ -86,3 +86,12 @@ class Conway_Abstract_Print(ld):
 
         #Returns the row as a string
         return(printout.join(printstore))
+
+class Conway_Alternative_Grids(ld):
+    "A class that allows users to have alternative grid rules"
+
+    def periodic_grid_update(self):
+
+    def wrap_round_update(self):
+
+    def cylinder_update(self):
