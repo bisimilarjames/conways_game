@@ -3,7 +3,7 @@ import random
 class Conway_Base:
     "Base class for a Conway's game of life simulation"
 
-    def __init__(self,dim):
+    def __init__(self,row,col):
         """
         Initialises the class
         Takes in length of a square grid
@@ -17,29 +17,28 @@ class Conway_Base:
         #####Declerations#####
         ####Variables####
         #Initialises the grid dimensions
-        self.row = dim
-        self.col = dim
+        self.row = row
+        self.col = col
 
         #####Computations#####
-        #Creates grid storage array
-        self.grid_setup()
-        #Pre-calculates the edges and corner positions in the array
-        self.edge_and_corner_calc()
 
 
-    def grid_setup(self):
+    def create_grid(self):
         """
-        Creates the array that stores states of the of the game
+        creates an initial randomised grid layout
 
-        data input: The int variables for the number of rows and columns
-        data output: The grid storage list with all the elements set to dead
+        data input: The int variables for the number of rows and columns, and the grid storage list filled with dead elements
+        data output: The grid storage list with randomised alive and dead elements
         """
         #####Declerations#####
 
         #####Computations#####
-        #The grid is represented as each row of grid elements aligned in one long row
-        #[r_1,r_2,...,r_r]
-        self.grid = [0 for i in range(0,self.row * self.col)]
+        #Loops through each grid element. If the random number generator produces less than 0.5 it floors
+        #Others the element is one
+        self.grid = [0 if random.random() < 0.5 else 1 for x in range(self.row * self.col)]
+
+        #Pre-calculates the edges and corner positions in the array
+        self.edge_and_corner_calc()
 
 
     def edge_and_corner_calc(self):
@@ -56,7 +55,7 @@ class Conway_Base:
         #Creates an array with the corner positions of the grid in the array
         #Ordered top left, top right, bottom left, bottom right
         self.corner = (0, self.col-1, (self.row - 1) * self.col, self.row * self. col - 1)
-        
+
         #Edge arrays
         #Top edge
         self.top_edge = tuple([i for i in range(1, self.col-1)])
@@ -66,21 +65,6 @@ class Conway_Base:
         self.right_edge = tuple([i for i in range(2 * self.col - 1, (self.row - 1) * self.col, self.col)])
         #Bottom edge
         self.bottom_edge = tuple([i for i in range((self.row - 1) * self.col + 1, self.row * self. col - 1)])
-
-
-    def create_grid(self):
-        """
-        creates an initial randomised grid layout
-
-        data input: The int variables for the number of rows and columns, and the grid storage list filled with dead elements
-        data output: The grid storage list with randomised alive and dead elements
-        """
-        #####Declerations#####
-
-        #####Computations#####
-        #Loops through each grid element. If the random number generator produces less than 0.5 it floors
-        #Others the element is one
-        self.grid = [0 if random.random() < 0.5 else 1 for x in range(self.row * self.col)]
 
 
     def print_grid(self):
@@ -194,98 +178,14 @@ class Conway_Base:
         #####Declerations#####
 
         #####Computations#####
-        #If the element has 2 or 3 alive neighbours it remains alive in the next iteration
-        if 2 <= sum <=3:
-            self.grid[index] = 1
-        #Any other number of neighbours the state dies in the next iteration
+        #If the state is alive
+        if self.grid[index] == 1:
+            #If the element has less than 2 or greater 3 alive neighbours it dies in the next iteration
+            if 2 > sum or sum > 3:
+                self.grid[index] = 0
+
+        #If the state is dead
         else:
-            self.grid[index] = 0
-
-
-
-class Conway_Abstract_Print(Conway_Base):
-    "A Class with a function that only prints the alive squares"
-
-    def print_grid_abstract(self,swi):
-        """
-        Prints out the grid as several strings of only alive states.
-        Alive states are an X alive states.
-        Dead states are left blank
-
-        data input: Life and death switch (Bool), the number of rows (int), the grid storage list
-        data output:n/a
-        """
-        #####Declerations#####
-
-        #####Computations#####
-        #Loops through each row in the grid
-        for i in range(self.row):
-            #Identifies the currently alive states in this iteration of the grid
-            #Prints out the alive states of the current row
-            print(self.string_creation(self.find_alive(i),swi))
-
-        #New line to seperate the grids in the terminal
-        print('\n')
-
-
-    def print_dead_alive(self):
-        """
-        Prints the alive and dead abstract grids next to each other.
-
-        data input: The number of rows (int), the grid storage list
-        data output: n/a
-        """
-        #####Declerations#####
-        ####Data Structure####
-        alive = []
-
-        #####Computations#####
-        #Loops through each row in the grid
-        for i in range(self.row):
-            #Identifies the currently alive states in this iteration of the grid
-            alive = self.find_alive(i)
-            #Prints out the alive states of the current row
-            print(self.string_creation(alive,True) + '\t' + self.string_creation(alive,False))
-
-        #New line to seperate the grids in the terminal
-        print('\n')
-
-
-    def find_alive(self, index):
-        """
-        Finds the alive states in the current row
-
-        data input: The number of rows & columns (int), the grid storage list, the current row index (int)
-        data output: A list with the (int) indicies of the elements in the current row that are alive
-        """
-        #####Declerations#####
-
-        #####Computations#####
-        #Returns the alive states by
-        #looping through each element in the row and checks if it is alive or dead
-        return [a for a, value in enumerate(self.grid[0 + self.col * index : self.col * (1 + index)]) if value == 1]
-
-
-
-    def string_creation(self,aliveness,daswi):
-        """
-        Creates the string version of the current row that has been searched for alive states
-
-        data input: The number of columns (int), the dead or alive switch (Bool), the list that stores the indicies of the alive states in the current row (int)
-        data output: A string with either all the alive element positions set to 'X' or
-        the dead element positions set to 'O'
-        """
-        #####Declerations#####
-        ####Variables####
-        printout = ''
-
-        #####Computations#####
-        #If the user wants to print the alive states
-        if daswi == True:
-            printstore = ['X ' if x in aliveness else '  ' for x in range(self.col)]
-        #If the user wants to print the death states
-        elif daswi == False:
-            printstore = [' ' if x in aliveness else 'O ' for x in range(self.col)]
-
-        #Returns the row as a string
-        return(printout.join(printstore))
+            #If the dead state has three alive neighbours that it becomes alive
+            if sum == 3:
+                self.grid[index] = 1
