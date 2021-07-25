@@ -181,7 +181,7 @@ class Conway_Base:
         #If the state is alive
         if self.grid[index] == 1:
             #If the element has less than 2 or greater 3 alive neighbours it dies in the next iteration
-            if 2 > sum or sum > 3
+            if 2 > sum or sum > 3:
                 self.grid[index] = 1
 
         #If the state is dead

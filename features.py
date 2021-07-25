@@ -157,7 +157,7 @@ class Conway_Abstract_Print(Conway_Input):
 class Life_and_Death_rules(Conway_Input):
     "A Class that allows users to use custom life and death rules for the neighbour states"
 
-    def __init__(self, row, col, born_tuple, survive_tuple):
+    def __init__(self, *args):
         """
         Initialises class
         Passes row and columns to parent class
@@ -265,7 +265,7 @@ class Life_and_Death_rules(Conway_Input):
         if self.grid[index] == 1:
             #Is this sum in the user defined survive rules
             #If it isn't set to dead
-            if sum in not self.survive_set:
+            if sum not in self.survive_set:
                 self.grid[index] = 0
         #If the surrent state is dead
         else:
