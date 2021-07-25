@@ -167,15 +167,27 @@ class Life_and_Death_rules(Conway_Input):
         data output: Sets containing the birth and survival rules
         """
         #####Declerations#####
+        rd = 0
+        cd = 0
 
         #####Computations#####
-        #Passes row and column dimensions to the conway input class
-        super().__init__(row, col)
+        rd = args[0]
+        cd = args[1]
 
-        #Checks the birth rules and sets them as a set
-        self.born_set = self.rule_checker(born_tuple, True)
-        #Checks the survive rules and sets them as a set
-        self.survive_set = self.rule_checker(survive_tuple, False)
+        #Passes row and column dimensions to the conway input class
+        super().__init__(rd, cd)
+
+        if len(args) == 2:
+            self.born_set = {3}
+            self.survive_set = {2,3}
+        elif len(args) == 4:
+            #Checks the birth rules and sets them as a set
+            self.born_set = self.rule_checker(args[2], True)
+            #Checks the survive rules and sets them as a set
+            self.survive_set = self.rule_checker(args[3], False)
+        else:
+            print('This program only accepts either 2 or 4 arguments')
+            quit()
 
 
     def rule_checker(self, tup, sel):
