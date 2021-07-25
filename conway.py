@@ -3,7 +3,7 @@ import random
 class Conway_Base:
     "Base class for a Conway's game of life simulation"
 
-    def __init__(self,dim):
+    def __init__(self,row,col):
         """
         Initialises the class
         Takes in length of a square grid
@@ -17,8 +17,8 @@ class Conway_Base:
         #####Declerations#####
         ####Variables####
         #Initialises the grid dimensions
-        self.row = dim
-        self.col = dim
+        self.row = row
+        self.col = col
 
         #####Computations#####
 
@@ -178,9 +178,14 @@ class Conway_Base:
         #####Declerations#####
 
         #####Computations#####
-        #If the element has 2 or 3 alive neighbours it remains alive in the next iteration
-        if 2 <= sum <=3:
-            self.grid[index] = 1
-        #Any other number of neighbours the state dies in the next iteration
+        #If the state is alive
+        if self.grid[index] == 1:
+            #If the element has less than 2 or greater 3 alive neighbours it dies in the next iteration
+            if 2 > sum or sum > 3
+                self.grid[index] = 1
+
+        #If the state is dead
         else:
-            self.grid[index] = 0
+            #If the dead state has three alive neighbours
+            if sum == 3:
+                self.grid[index] = 1

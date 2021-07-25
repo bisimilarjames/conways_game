@@ -3,7 +3,7 @@ from conway import Conway_Base as cb
 class Conway_Input(cb):
     "A class whose initialisation allows for the generic arguments so a rectanglular grid can be constructed"
 
-    def __init__(self,*args):
+    def __init__(self, row, col):
         """
         Initialises the class
         Takes the number of rows and columns in a generic argument
@@ -18,32 +18,15 @@ class Conway_Input(cb):
         #####Declerations#####
 
         #####Computations#####
-        print(args)
-        #Checks the length of the argument tuple for the number of user inputs
-        #If there is one user input
-        if (len(args) == 1):
-            #Checks the correctness of the input
-            self.input_checker(args[0],True)
-            #If the input is correct it passes it to an initialisation of the Conway_base class
-            super().__init__(args[0])
 
-        #If there are two user inputs
-        elif (len(args) == 2):
-            #Checks the inputs seperatley
-            self.input_checker(args[0],True)
-            self.input_checker(args[1],False)
+        #Checks the inputs
+        self.input_checker(row, True)
+        self.input_checker(col, False)
 
-            #Assigns the user input to the classes row and column variables
-            self.row = args[0]
-            self.col = args[1]
+        #Assigns the user input to the classes row and column variables
+        super().__init__(row, col)
 
-        #If the input tuple is any other length
-        else:
-            #Prints error and then quits the program
-            print('Initialisat Method must have one or two integer inputs only')
-            quit()
-
-    def input_checker(self,ndim,sel):
+    def input_checker(self, ndim, sel):
         """
         Checks the initalised user input for the grid dimensions is type correct and mathematically possible
         Gives error message and quits the program if not
@@ -86,7 +69,7 @@ class Conway_Input(cb):
 class Conway_Abstract_Print(Conway_Input):
     "A Class with a function that only prints the alive squares"
 
-    def print_grid_abstract(self,swi):
+    def print_grid_abstract(self, swi):
         """
         Prints out the grid as several strings of only alive states.
         Alive states are an X alive states.
@@ -147,7 +130,7 @@ class Conway_Abstract_Print(Conway_Input):
 
 
 
-    def string_creation(self,aliveness,daswi):
+    def string_creation(self, aliveness, daswi):
         """
         Creates the string version of the current row that has been searched for alive states
 
@@ -174,6 +157,119 @@ class Conway_Abstract_Print(Conway_Input):
 class Life_and_Death_rules(Conway_Input):
     "A Class that allows users to use custom life and death rules for the neighbour states"
 
-    def __init__(born_tuple,survive_tuple,*args):
-            griddim = args[1:]
-            
+    def __init__(self, born_tuple, survive_tuple, row, col):
+        """
+        Initialises class
+        Passes row and columns to parent class
+        Checks the birth and survival rules submitted
+
+        data input: Tuples of birth and survival rules, and row and col (int) dimensions
+        data output: Sets containing the birth and survival rules
+        """
+        #####Declerations#####
+
+        #####Computations#####
+        #Passes row and column dimensions to the conway input class
+        super().__init__(row, col)
+
+        #Checks the birth rules and sets them as a set
+        self.born_set = self.rule_checker(born_tuple, True)
+        #Checks the survive rules and sets them as a set
+        self.survive_set = self.rule_checker(survive_tuple, False)
+
+
+    def rule_checker(self, tup, sel):
+        """
+        Checks that the rule set content submitted are correct and return them as a set
+
+
+        data input: A tuple
+        data output: A set
+        """
+        #####Declerations#####
+        ####Sets####
+        #A square grid has a maximum of 8 neighbours so any comparison to the numbers of neighbours
+        # has to be between 0 and 8
+        comparison_set = {0,1,2,3,4,5,6,7,8}
+        #Set holds the tuple submitted
+        #Using a set removes any duplicate submissions from the user
+        storage_set = set()
+        #Holds the tuple that is used in the comparison operations
+        test_set = set()
+
+
+        #####Computations#####
+        #If the tuple only has one element it defaults to whatever the type of the member is
+        #The indvidual type is not iterable
+        #If it is a tuple
+        if type(tup) is tuple:
+            #Loops through the members
+            for item in tup:
+                #If a member isn't an integer print the message for the correct rule set
+                if not isinstance(item, int):
+                    if sel == True:
+                        print('Integers only in the born rules')
+                    elif sel == False:
+                        print('Integers only in the survive rules')
+                    #Quits
+                    quit()
+
+        #If it is an indvidual thing submitted, the code only wants ints
+        #If it isn't an int the code breaks
+        elif type(tup) is not int:
+            if sel == True:
+                print('Integers only in the born rules')
+            elif sel == False:
+                print('Integers only in the survive rules')
+
+            quit()
+
+        #If it is an indvidual element
+        if type(tup) is int:
+            #It adds it to the empty set
+            storage_set.add(tup)
+        else:
+            #Or it converts the tuple to set
+            storage_set = set(tup)
+
+        #If the user submits doesn't submit an empty rule set (which is allowed)
+        if len(storage_set) != 0:
+            #Make a test set of the submitted values and any missing in the comparison set
+            test_set = storage_set.union(comparison_set)
+            # If there are elements in the set that are not in the comparison set
+            #Flags an error
+            if len(test_set.difference(comparison_set)) != 0:
+                if sel == True:
+                    print('A grid can only have 0 to 8 neighbours. In the born rules.')
+                elif sel == False:
+                    print('A grid can only have 0 to 8 neighbours. In the survive rules.')
+
+                quit()
+
+        #Returns the set
+        return storage_set
+
+    def conway_life_death_comp(self, sum, index):
+        """
+        An updated comparison to see if the state is alive or dead in the next iteration
+        Using user generated rules
+
+        data input: The current element index (int), the sum value for the current element (int <= 8), the grid state list
+        and the birth and survive comparison sets (set)
+        data output: The grid state list with the index updated for the next iteration
+        """
+        #####Declerations#####
+
+        #####Computations#####
+        # If the state is current alive
+        if self.grid[index] == 1:
+            #Is this sum in the user defined survive rules
+            #If it isn't set to dead
+            if sum in not self.survive_set:
+                self.grid[index] = 0
+        #If the surrent state is dead
+        else:
+            #If the sum is in the user defined born rules
+            if sum in self.born_set:
+                #Sett to alive
+                self.grid[index] = 1
