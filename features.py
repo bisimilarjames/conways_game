@@ -95,3 +95,94 @@ class Conway_Alternative_Grids(ld):
     def wrap_round_update(self):
 
     def cylinder_update(self):
+        """
+        Updates the grid for each iteration of the run
+
+        data input: The int variables for the number of rows and columns, and the randomised grid storage array
+        data output: The grid storage list with updated states for all the elements
+        """
+        #####Declerations#####
+        ####Data Structures####
+        #Makes an immutable copy of the current state of the grid
+        reference = tuple(self.grid)
+        ####Variables####
+        #Variable for holding the number of neighbours of each grid
+        sum = 0
+
+        #####Computations#####
+        #Loops through each element in the grid
+        for i in range(len(self.grid)):
+            # CORNERS
+            #Checks if the current element is one of the corners
+            #Each corner element has three neighbours
+            #Top left corner
+            if (i == self.corner[0]):
+                #Sums the state three grid neighbours of the top left corner element
+                sum = (reference[i + 1] +
+                reference[i + self.col] + reference[i + self.col + 1] +
+                #cylinder rules
+                reference[i + self.col - 1] + reference[i + 2 * self.col - 1])
+
+            #Top Right corner
+            elif(i == self.corner[1]):
+                sum = (reference[i - 1] +
+                reference[i + self.col - 1] + reference[i + self.col] +
+                #cylinder rules
+                reference[0] + reference[i + 1])
+
+            #Bottom left corner
+            elif(i == self.corner[2]):
+                sum = (reference[i - self.col] + reference[i - self.col + 1] +
+                reference[i + 1] +
+                #cylinder rules
+                reference[i - 1] + reference[i + self.col - 1])
+
+            #Bottom right corner
+            elif(i == self.corner[3]):
+                sum = (reference[i - (self.col + 1)] + reference[i - self.col] +
+                reference[i - 1] +
+                #cylinder rules
+                reference[i - self.col + 1] + reference[i - 2 * self.col + 1])
+
+            #EDGE
+            #Checks if the current element is an edge element
+            #Each edge element has five neighbours
+            #Top Edge
+            elif(i in self.top_edge):
+                sum = (reference[i - 1] + reference[i + 1] +
+                reference[i + self.col - 1] + reference[i + self.col] + reference[i + self.col + 1])
+
+            #Left Edge
+            elif(i in self.left_edge):
+                sum = (reference[i - self.col] + reference[i - self.col + 1] +
+                reference[i + 1] +
+                reference[i + self.col] + reference[i + self.col + 1] +
+                #cylinder rules
+                reference[i - 1] + reference[i + self.col - 1] + reference[i + self.col])
+
+            #Right Edge
+            elif(i in self.right_edge):
+                sum = (reference[i - (self.col + 1)] + reference[i - self.col] +
+                reference[i - 1] +
+                reference[i + self.col - 1] + reference[i + self.col] +
+                #cylinder rules
+                reference[i - 2 * self.col + 1] + reference[i - self.col + 1] + reference[i + 1])
+
+            #Bottom Edge
+            elif(i in self.bottom_edge):
+                sum = (reference[i - (self.col + 1)] + reference[i - self.col] + reference[i + 1 - self.col] +
+                reference[i - 1] + reference[i + 1])
+
+            #Core positions
+            #Each core position has eight neighbours
+            else:
+                sum = (reference[i - self.col - 1] + reference[i - self.col] + reference[i - self.col + 1] +
+                reference[i - 1] + reference[i + 1] +
+                reference[i + self.col - 1] + reference[i + self.col] + reference[i + self.col + 1])
+
+            #Checks the sum of the elements neighbours and updates the state
+            self.conway_life_death_comp(sum, i)
+
+            ####Garbage####
+            #Resets the neighbours sum
+            sum = 0
