@@ -226,7 +226,7 @@ class Conway_Alternative_Grids(ld):
             #Checks if the current element is an edge element
             #Top Edge
             elif(i in self.top_edge):
-                sum = (reference[] + reference[] + reference[] +
+                sum = (reference[self.row * self.col - i] + reference[self.row * self.col - (i + 1)] + reference[self.row * self.col - (i + 2)] +
                 reference[i - 1] + reference[i + 1] +
                 reference[i + self.col - 1] + reference[i + self.col] + reference[i + self.col + 1])
 
