@@ -87,7 +87,7 @@ class Conway_Abstract_Print(ld):
         #Returns the row as a string
         return(printout.join(printstore))
 
-class Conway_Alternative_Grids(ld):
+class Conway_Alternative_Grids(Conway_Abstract_Print):
     "A class that allows users to have alternative grid rules"
 
     def periodic_grid_update(self):
@@ -360,7 +360,7 @@ class Conway_Alternative_Grids(ld):
 
             #Left Edge
             #Takes the five grids around it
-            #And the three grids on the opposite x side 
+            #And the three grids on the opposite x side
             elif(i in self.left_edge):
                 sum = (reference[i - self.col] + reference[i - self.col + 1] +
                 reference[i + 1] +
