@@ -53,15 +53,16 @@ class Conway_Input(cb):
 
 
         #Checks the variabe is a positive integer
-        if ndim > 0:
+        #The integer has to be greater that 3 for the corner and edge maths to work
+        if ndim >= 3:
             pass
 
         #If it isn't a positive int prints appropriat error for the kind of varibale and quits
         else:
             if sel == True:
-                print('Number of rows must be a positive intger')
+                print('Number of rows must be a positive intger, greater than or equal to 3.')
             elif sel == False:
-                print('Number of columns must be a positive intger')
+                print('Number of columns must be a positive intger, greater than or equal to 3.')
 
             quit()
 
